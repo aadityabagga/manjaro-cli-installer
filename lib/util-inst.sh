@@ -518,7 +518,7 @@ installsystem_unsquash(){
 	mkdir -p ${DESTDIR}
 	#unsquashfs -f -d ${DESTDIR} ${img_path}/root-image.sqfs
 	UNSQUASH_TARGET=${DESTDIR}
-	SQF_FILE=root-image.sqfs
+	SQF_FILE=${ROOT_IMG}.${SQUASHFS_EXT}
 	run_unsquashfs
 	echo $? > /tmp/.install-retcode
 	if [ $(cat /tmp/.install-retcode) -ne 0 ]; then
@@ -532,7 +532,7 @@ installsystem_unsquash(){
 	if [[ -n ${DESKTOP_IMG} ]]; then
 		#unsquashfs -f -d ${DESTDIR} ${img_path}/de-image.sqfs
 		UNSQUASH_TARGET=${DESTDIR}
-		SQF_FILE=${DESKTOP_IMG}.sqfs
+		SQF_FILE=${DESKTOP_IMG}.${SQUASHFS_EXT}
 		run_unsquashfs
 		echo $? > /tmp/.install-retcode
 		if [ $(cat /tmp/.install-retcode) -ne 0 ]; then
@@ -586,7 +586,7 @@ installsystem_cp(){
 	CP_SOURCE=/source/root-image
 	mkdir -p ${CP_SOURCE}
 	CP_TARGET=${DESTDIR}
-	SQF_FILE=root-image.sqfs
+	SQF_FILE=${ROOT_IMG}.${SQUASHFS_EXT}
 	run_mount_sqf
 	run_cp
 	run_umount_sqf
@@ -602,7 +602,7 @@ installsystem_cp(){
 		CP_SOURCE=/source/${DESKTOP_IMG}
 		mkdir -p ${CP_SOURCE}
 		CP_TARGET=${DESTDIR}
-		SQF_FILE=${DESKTOP_IMG}.sqfs
+		SQF_FILE=${DESKTOP_IMG}.${SQUASHFS_EXT}
 		run_mount_sqf
 		run_cp
 		run_umount_sqf

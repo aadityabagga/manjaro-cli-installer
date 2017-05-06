@@ -27,9 +27,21 @@ PKG_OVERLAY="${REPO_PATH}/pkgs"
 arch=$(uname -m)
 username=''
 
-img_path="/bootmnt/${iso_name}/${arch}"
+if [ -e "/run/miso/bootmnt/${iso_name}/${arch}" ]; then
+	# Newer manjaro-tools (0.14+)
+	img_path="/run/miso/bootmnt/${iso_name}/${arch}"
+	ROOT_IMG="rootfs"
+	SQUASHFS_EXT="sfs"
+else
+	# Older manjaro tools (0.13 and below)
+	img_path="/bootmnt/${iso_name}/${arch}"
+	ROOT_IMG="root-image"
+	SQUASHFS_EXT="sqfs"
+fi
 
-if [ -e "${img_path}/${profile}-image.sqfs" ] ; then
+if [ -e "${img_path}/desktopfs.sfs" ] ; then
+	DESKTOP_IMG="desktopfs"
+elif [ -e "${img_path}/${profile}-image.sqfs" ] ; then
 	DESKTOP_IMG="${profile}-image"
 fi
 
